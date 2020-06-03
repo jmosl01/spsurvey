@@ -1,4 +1,4 @@
-spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_metrics, geography_metrics) {
+spbal_calc <- function(sampled_sub, population_sub, pop_bbox, spb_type, population_metrics, geography_metrics) {
   
 # working with the sampled sites
   
@@ -21,7 +21,7 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
   
 # spatial balance with respect to the population
   
-  if ("population" %in% type) {
+  if ("population" %in% spb_type) {
   
   ## making the dirichlet polygon
   tiles <- deldir(x = samp_xcoord, 
@@ -61,7 +61,7 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
   }
   
   # ## for lines, have not completetly vetted code
-  # } else if(all(st_geometry_type(sfframe) %in% c("LINESTRING", "MULTILINESTRING"))) {
+  # } else if(all(st_geometry_spb_type(sfframe) %in% c("LINESTRING", "MULTILINESTRING"))) {
   #   sftess$length_mdm <- as.numeric(st_length(sftess))
   #   extent <- with(sftess, tapply(length_mdm, poly, sum))
   #   extent[is.na(extent)] <- 0
@@ -78,7 +78,7 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
     
     ### could put wgt/sum(wgt) here
     ## making expected counts and proportions
-    expected_counts <- N / n 
+    ## expected_counts <- N / n 
     expected_props <- 1 / n
     
     
@@ -102,7 +102,7 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
       names(abserr) <- "abserr"
     } else abserr <- NULL
     if ("simpsons" %in% population_metrics) {
-      simpsons <- sum(props^2) - 1/n
+      simpsons <- sum(props^2) - expected_props
       names(simpsons) <- "simpsons"
     } else simpsons <- NULL
 

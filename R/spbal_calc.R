@@ -91,7 +91,7 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
     names(pielou) <- "pielou"
     } else pielou <- NULL
     ## calculating chi square statsitic that has a chi square distribution, larger is worse spatial balance
-    chisq <- sum((counts - expected_counts)^2 / expected_counts)
+    #chisq <- sum((counts - expected_counts)^2 / expected_counts)
     if ("chisq" %in% population_metrics) {
       #chisq <- sum((counts - expected_counts)^2 / expected_counts)
       chisq <- sum((props - expected_props)^2 / expected_props)
@@ -101,10 +101,15 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, type, population_m
       abserr <- sum(abs(props - expected_props) / expected_props)
       names(abserr) <- "abserr"
     } else abserr <- NULL
+    if ("simpsons" %in% population_metrics) {
+      simpsons <- sum(props^2) - 1/n
+      names(simpsons) <- "simpsons"
+    } else simpsons <- NULL
 
-    
+    population_metrics <- c(pielou, chisq, abserr, simpsons)
+    population_metrics <- population_metrics[sort(names(population_metrics))]
 # returning the results when stored by the user
-    invisible(list(population_metrics = c(pielou, chisq, abserr), counts = counts))
+    invisible(list(population_metrics = population_metrics, counts = counts))
   }  
 }
 

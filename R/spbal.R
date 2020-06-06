@@ -1,5 +1,21 @@
+#' Title
+#'
+#' Description
+#'
+#' @param dsgn 
+#' @param sampled_sites 
+#' @param population_sites 
+#' @param population_strata 
+#' @param spb_type 
+#' @param population_metrics 
+#' @param geography_metrics 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 spbal <- function(dsgn, sampled_sites, population_sites, population_strata, spb_type = "population", 
-                  population_metrics = c("pielou", "chisq"), geography_metrics = NULL) {
+                  population_metrics = c("pielou"), geography_metrics = NULL) {
   
   # finding the population bounding box
   pop_bbox <- st_bbox(population_sites)[c("xmin", "xmax", "ymin", "ymax")]

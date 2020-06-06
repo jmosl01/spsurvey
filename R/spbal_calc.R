@@ -1,3 +1,18 @@
+#' Title
+#'
+#' Description
+#'
+#' @param sampled_sub 
+#' @param population_sub 
+#' @param pop_bbox 
+#' @param spb_type 
+#' @param population_metrics 
+#' @param geography_metrics 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 spbal_calc <- function(sampled_sub, population_sub, pop_bbox, spb_type, population_metrics, geography_metrics) {
   
 # working with the sampled sites

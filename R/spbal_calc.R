@@ -1,15 +1,34 @@
-#' Title
+################################################################################
+# Function: spbal_calc
+# Programmer: Michael Dumelle
+# Date: July 8, 2020
+# Last Revised: July 8, 2020
+
+#' Spatial Balance
 #'
-#' Description
+#' This function computes the spatial balance of a strata with respect 
+#' to the population or geography.  Spatial balance with respect to the
+#' population measures the extent to which a sample is a miniature of 
+#' the population using Dirichlet Tesselations of the sample
+#' and counting the number of population units in each tesselation.
+#' Spatial balance with respect to the population measures the geographic
+#' spread in the sample using distance measures. 
 #'
-#' @param sampled_sub 
-#' @param population_sub 
-#' @param pop_bbox 
-#' @param spb_type 
-#' @param population_metrics 
-#' @param geography_metrics 
+#' @param sampled_sub a subset of the sample frame used in the within 
+#' strata spatial balance calculation
+#' @param population_sub a subset of the population frame used in the within 
+#' strata spatial balance calculation
+#' @param pop_bbox a bounding box of the population sf frame
+#' @param spb_type a character vector indicating "population" or 
+#' "geography" spatial balance metrics  
+#' @param population_metrics a character vector indicating the 
+#' requested population spatial balance metrics (default is Pielou's)
+#' @param geography_metrics a character vector indicating the 
+#' requested population spatial balance metrics
 #'
-#' @return
+#' @return A list containing the spatial balance metrics for a strata and, 
+#' if the spatial balance is with respect to geography, the number of 
+#' population units in each Dirichlet Tesselations
 #' @export
 #'
 #' @examples
@@ -120,10 +139,13 @@ spbal_calc <- function(sampled_sub, population_sub, pop_bbox, spb_type, populati
       simpsons <- sum(props^2) - expected_props
       names(simpsons) <- "simpsons"
     } else simpsons <- NULL
-
+    
+    # putting the metrics together in a vector where all null elements are implicitly removed
     population_metrics <- c(pielou, chisq, abserr, simpsons)
+    # naming these vectors
     population_metrics <- population_metrics[sort(names(population_metrics))]
-# returning the results when stored by the user
+    
+   # returning the results when stored by the user
     invisible(list(population_metrics = population_metrics, counts = counts))
   }  
 }
